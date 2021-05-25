@@ -1,0 +1,352 @@
+" NacyroVimRC Poor
+" Maintainer:	Nacyro
+"
+" To use it, copy it to
+"     Linux/Unix:  ~/.vimrc
+"     Win32:       $VIM\_vimrc
+"
+" ========================= Change Log =========================
+"
+"
+" ========================= Default Settings =========================
+" When started as evim, evim.vim will already have done these settings.
+if v:progname =~? "evim"
+    finish
+endif
+
+" Get the defaults settings
+source $VIMRUNTIME/defaults.vim
+
+" Put these in an autocmd group, so that we can delete them easily.
+augroup vimrcEx
+    au!
+    " For all text files set 'textwidth' to 78 characters.
+    "autocmd FileType text setlocal textwidth=78
+augroup END
+
+" Add optional packages.
+" The matchit plugin makes the % command work better
+" but it is not backwards compatible.
+" The ! means the package won't be loaded right away
+" but when plugins are loaded during initialization.
+if has('syntax') && has('eval')
+    packadd! matchit
+endif
+
+" ========================= Vundle Settings =========================
+" repos: git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" Vundle 相关命令
+" :PluginList    | 列出插件列表;
+" :PluginInstall | 安装插件; 附加`!`为升级插件
+" :PluginUpdate  | 插件升级;
+" :PluginSearch  | 搜索插件; 附加`!`为刷新本地缓存;
+" :PluginClean   | 带确认移除未使用插件; 附加`!`为自动同意移除;
+" :h vundle      | 提示更多细节
+filetype off                                     " 为Vundle关闭filetype
+" set the runtime path to include Vundle and initialize
+"if has("win32")
+"    set rtp+=$VIM/vimfiles/bundle/Vundle.vim     " 设置Vundle运行时
+"    call vundle#begin('$VIM/vimfiles/bundle/')   " 初始化Vundle
+"else
+"    set rtp+=$HOME/.vim/bundle/Vundle.vim        " 设置Vundle运行时
+"    call vundle#begin('$HOME/.vim/bundle/')      " 初始化Vundle
+"endif
+"" 或者另一种写法 `call vundle#begin('${Vundle_PATH}')`
+"Plugin 'VundleVim/Vundle.vim'                " 达成VundleVim自管理
+"" 以下直至`vundle#end`为Vundle的"仓库/包"列表
+"" 写法示例: GitHub源插件:  Plugin 'tpope/vim-fugitive'
+"" 写法示例: Git托管的插件: Plugin 'git://git.wincent.com/command-t.git'
+"" 写法示例: 路径协议插件:  Plugin 'file:///home/gmarik/path/to/plugin'
+"" 写法示例: 运行时路径:    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+"" 写法示例: 命名空间冲突:  Plugin 'ascenator/L9', {'name': 'newL9'}
+"Plugin 'taglist.vim'
+"Plugin 'scrooloose/nerdtree'
+"Plugin 'kien/ctrlp.vim'
+"Plugin 'tomasr/molokai'
+"Plugin 'Solarized'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'godlygeek/tabular'                " vim-markdown 的依赖
+"Plugin 'plasticboy/vim-markdown'          " 用法详见 :help vim-markdwon
+"call vundle#end()
+filetype plugin indent on                 " 启用文件类型识别
+
+" ========================= Common Settings =========================
+set encoding=utf-8                      " 设置vim内部使用的字符编码 [cp936]
+set fileencodings=utf-8,cp936,latin-1   " 逐一试探所列编码方式
+set fileencoding=utf-8                  " 新建默认编码, 编辑文件保存的编码方式
+set nocompatible                        " 禁用Vi键盘模式
+set backspace=indent,eol,start          " 设置backspace为2型行为
+set shortmess=atI                       " 不显示公益广告
+set history=4096                        " 历史记录容量
+set nobackup                            " 禁止生成备份文件
+set noswapfile                          " 禁止生成交换文件
+set autoread                            " 文件被改动时自动载入
+set autochdir                           " 自动切换当前目录为当前文件所在的目录 
+"set mouse=a                            " 启用鼠标
+" ========================= Edit Settings =========================
+set number                              " 显示行号
+set numberwidth=4                       " 行号宽度
+"set relativenumber                     " 相对行号
+"set cursorline                          " 高亮当前行
+"set cursorcolumn                       " 高亮当前列
+syntax enable                           " 开启语法高亮功能
+syntax on                               " 开启语法高亮支持
+set completeopt=preview,menu            " 代码补全
+set showmatch                           " 高亮显示匹配括号
+set showcmd                             " 状态栏显示目前所执行的指令
+set matchtime=1                         " 匹配括号高亮的时间(1/10s)
+set hlsearch                            " 搜索高亮, 用 :noh 撤销
+set expandtab                           " <Tab> 使用空格
+set tabstop=4                           " <Tab> 宽度
+set shiftwidth=4                        " 使用><调整时缩进4个空格, 自动缩进空白长度, 符号移位长度
+set softtabstop=4                       " 插入 <SPA> <TAB> 混合体, 自动整理制表符
+set nowrap                              " 关闭自动折行
+"set linebreak                          " 更智能的自动换行
+set autoindent                          " 设置自动缩进
+set smartindent                         " 为C程序自动缩进
+set t_Co=256                            " 设置Vim256色
+"" " ----- solarized colorscheme light -----
+"" set background=light                    " 使用暗色背景
+"" let g:solarized_termcolors=256
+"" let g:solarized_bold=1
+"" let g:solarized_italic=0
+"" let g:solarized_visibility="normal"     " [normal,high,low]
+"" colorscheme solarized
+" ----- solarized colorscheme light -----
+"set background=dark
+"let g:molokai_original=1
+"let g:rehash256=1
+"colorscheme  molokai
+colorscheme desert
+" 括号匹配高亮, 默认简直眼瞎
+hi MatchParen ctermbg=yellow guibg=lightblue
+" ========================= Status Settings =========================
+set showtabline=2                       " 默认打开标签栏
+set statusline=%F%m%r%h%w\ [EOL=%{&ff}]\ [TYPE=%Y]\ [%{strftime(\"%Y\-%m\-%d\-\%T\")}]\ [L%l,R%v,%p%%]
+set laststatus=2                        " 启动显示状态行(1),总是显示状态行(2)
+set ruler                               " 打开状态栏标尺
+" ========================= Show Blank =========================
+"set list                               " 启用list模式
+"set listchars=eol:¬,tab:>-,trail:~
+" ========================= Key Binding =========================
+" 下面四个键绑定会导致 FreeBSD Vim 无法使用 BackSpace
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+" 快捷窗口大小调整
+nmap w= :vertical resize +2<CR>
+nmap w- :vertical resize -2<CR>
+nmap w, :resize +2<CR>
+nmap w. :resize -2<CR>
+" 切换窗口
+nmap tt <c-w>w
+nnoremap <C-tab> :bn<CR>
+nnoremap <C-s-tab> :bp<CR>
+
+" ========================= Leader Definitions =========================
+let mapleader = "\<space>"  " 使用空格作为 <leader>
+" 插入系统时间快捷键, 普通模式 <SPA><F6>, 插入模式 <F6>
+inoremap <F6> <C-R>=strftime("%F %T")<CR>
+nnoremap <leader><F6> "=strftime("%F %T")<CR>gP
+" 定义使用前缀键和数字键快速切换缓冲区
+nnoremap <leader>1 :1b<CR>
+nnoremap <leader>2 :2b<CR>
+nnoremap <leader>3 :3b<CR>
+nnoremap <leader>4 :4b<CR>
+nnoremap <leader>5 :5b<CR>
+nnoremap <leader>6 :6b<CR>
+nnoremap <leader>7 :7b<CR>
+nnoremap <leader>8 :8b<CR>
+nnoremap <leader>9 :9b<CR>
+" 快速删除当前文件所有行尾空格
+nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" ========================= GVim GUI =========================
+lang messages zh_CN.UTF-8               " 解决 consle 输出乱码 
+source $VIMRUNTIME/delmenu.vim          " 解决菜单乱码 
+source $VIMRUNTIME/menu.vim
+
+"" 字体显示效果测试
+"" Lorem ipsum
+"" 1lIi gph o0O
+"" +-*/\=~ | `'
+"" { [ () ] } 『』
+"" !?  ！？  :：  ;；
+"" ,.  ，。  置叠远开
+
+"if has("gui_running")
+"    set co=132
+"    set lines=32
+"    "au GUIEnter * simalt ~x            " GVim 打开即进入全屏
+"    set mouse=a                         " 启用鼠标
+"    if has('gui_win32')                 " MSWin
+"        set linespace=0                 " 设置行间距
+"        set guifont=ProFont\ for\ Powerline:h10:cDEFAULT
+"        "set guifont=YaHei\ Consolas\ Hybrid:h10:cDEFAULT
+"    else                                " Linux/Unix
+"        set linespace=-3                " 设置行间距
+"        set guifont=Hack\ 10
+"		set guifontwide=WenQuanYi\ Zen\ Hei\ Sharp\ 12
+"    endif
+"    " guioptions= (go=) [egmrLtT]
+"    "   g  无法使用的菜单选项变为灰色
+"    "   m  显示菜单栏
+"    "   r  显示右边的下拉条
+"    "   L  垂直分割窗口时显示左边的下拉条
+"    "   T  显示工具栏
+"    set guioptions-=T                   " 隐藏工具栏
+"    set guioptions-=m                   " 隐藏菜单栏
+"    set guioptions-=r                   " 隐藏右侧滚动条
+"    set guioptions-=L                   " 隐藏分割后左侧滚动条
+"    set showtabline=1                   " 新建时显示标签栏
+"    set guicursor=n-v-c-ci-cr-i:block-Cursor/lCursor
+"	" 设定光标闪烁
+"    set guicursor=a:blinkwait1000-blinkon500-blinkoff500 
+"endif
+
+"" ========================= Plugin Settings =========================
+"" ========== Plugin YouCompleteMe ==========
+"if has("win32")
+"	let g:ycm_server_python_interpreter='C:\Nacyro\opt\Python38\python.exe'
+"else
+"	let g:ycm_server_python_interpreter='/usr/bin/python3'
+"endif
+""let g:ycm_global_ycm_extra_conf='$VIM/.ycm_extra_conf.py'
+"let g:ycm_show_diagnostics_ui = 0                  " 关闭语法提示
+"let g:ycm_complete_in_comments = 1                 " 补全功能在注释中同样有效
+"let g:ycm_confirm_extra_conf = 0                   " 允许 vim 加载 .ycm_extra_conf.py 文件, 不再提示
+"let g:ycm_collect_identifiers_from_tags_files = 1  " 开启 YCM 标签补全引擎
+"let g:ycm_min_num_of_chars_for_completion = 1      " 从第一个键入字符就开始罗列匹配项
+"let g:ycm_cache_omnifunc = 0                       " 禁止缓存匹配项，每次都重新生成匹配项
+"let g:ycm_seed_identifiers_with_syntax = 1         " 语法关键字补全
+"let g:ycm_goto_buffer_command = 'horizontal-split' " 跳转打开上下分屏
+"map <F2> :YcmCompleter GoToDefinition<CR>
+"map <F3> :YcmCompleter GoToDeclaration<CR>
+"map <F4> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"
+"" ========== Plugin Markdown ==========
+"let g:vim_markdown_folding_disabled = 1 " 关闭 Markdown 自动折叠
+"let g:vim_markdown_math = 1             " 高亮数学公式
+"
+"" ========== Plugin CtrlP ==========
+"let g:ctrlp_map = '<leader>p'    " <leader>p 搜索当前目录下文件
+"let g:ctrlp_cmd = 'CtrlP'
+"" <Leader>f 搜索 MRU 文件
+"map <leader>f :CtrlPMRU<CR>
+"" <Leader>b显示缓冲区文件，并可通过序号进行跳转
+"nmap <leader>b :CtrlPBuffer<CR>
+"" 设置搜索时忽略的文件
+"let g:ctrlp_custom_ignore = {
+"    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+"    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+"    \ }
+"let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_match_window_bottom = 1
+"let g:ctrlp_max_height = 15             " 修改 QuickFix 窗口显示的最大条目数
+"let g:ctrlp_match_window_reversed = 0
+"let g:ctrlp_mruf_max = 500              " 设置 MRU 最大条目数为 500
+"let g:ctrlp_follow_symlinks = 1
+"" 默认使用全路径搜索, 置 1 后按文件名搜索, 准确率会有所提高, 可以用 <C-d> 进行切换
+"let g:ctrlp_by_filename = 1
+"" 默认不使用正则表达式, 置 1 改为默认使用正则表达式, 可以用 <C-r> 进行切换
+"let g:ctrlp_regexp = 0
+"" 自定义搜索列表的提示符
+""let g:ctrlp_line_prefix = '♪ '
+"
+"" ========== Plugin NERDTree ==========
+""autocmd vimenter * NERDTree            " Vim启动时自动启动NERDTree
+"" <C-t> 切换 NERDTree
+"map <C-t> :NERDTreeToggle<CR>
+"let NERDTreeWinSize = 16                " 设置NERDTree宽度
+"let NERDTreeShowHidden = 1              " 显示隐藏文件
+"let g:NERDTreeQuitOnOpen = 0            " 打开文件后退出
+"" 标签域共享 NERDTree 窗口
+"let g:nerdtree_tabs_open_on_console_startup = 1
+""let NERDTreeShowBookmarks = 1          " 显示书签列表
+"" NERDTree为剩下的唯一窗口时自动关闭
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"
+"" ========== Plugin Taglist ==========
+"if has("win32")                " 设定Windows系统中ctags程序的位置
+"    let Tlist_Ctags_Cmd = 'ctags'
+"else
+"    let Tlist_Ctags_Cmd = '/usr/bin/ctags'
+"endif
+"let Tlist_Show_One_File = 1            " 不同时显示多个文件的tag，只显示当前文件的
+"let Tlist_Exit_OnlyWindow = 1          " 如果taglist窗口是最后一个窗口，则退出vim
+"let Tlist_Use_Right_Window = 1         " 在右侧窗口中显示taglist窗口
+"let Tlist_WinWidth=16                  " 设置 taglist 宽度
+"map <silent> <F9> :TlistToggle<CR>     " 按 <F9> 启动 taglist 窗口
+"
+"" ========== Plugin AirLine ==========
+"let g:airline_theme = "molokai"
+""let g:airline_theme = "dark"
+"let g:airline_powerline_fonts = 1      " 启用Powerline字体
+"" 打开tabline功能,方便查看Buffer和切换,省去了minibufexpl插件
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#buffer_nr_show = 1
+"" 关闭状态显示空白符号计数
+"let g:airline#extensions#whitespace#enabled = 0
+"let g:airline#extensions#whitespace#symbol = '!'
+"let g:airline_section_b = '%{strftime("%Y-%m-%d %T")}'
+"let g:airline_section_y = 'BN: %{bufnr("%")}'
+"if !exists('g:airline_symbols')
+"	let g:airline_symbols = {}
+"else
+"    let g:airline_symbols.linenr = ''
+"    let g:airline_symbols.linenr = '␊'
+"    let g:airline_symbols.linenr = '␤'
+"    let g:airline_symbols.linenr = '¶'
+"    let g:airline_symbols.paste = 'ρ'
+"    let g:airline_symbols.paste = 'Þ'
+"    let g:airline_symbols.whitespace = 'Ξ'
+"    let g:airline_left_sep = ''
+"    let g:airline_left_alt_sep = ''
+"    let g:airline_right_sep = ''
+"    let g:airline_right_alt_sep = ''
+"    let g:airline_symbols.branch = ''
+"    let g:airline_symbols.readonly = ''
+"endif
+
+" ========================= Function Definition =========================
+" Use the internal diff if available.
+" Otherwise use the special 'diffexpr' for Windows.
+if &diffopt !~# 'internal'
+  set diffexpr=MyDiff()
+endif
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg1 = substitute(arg1, '!', '\!', 'g')
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg2 = substitute(arg2, '!', '\!', 'g')
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let arg3 = substitute(arg3, '!', '\!', 'g')
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      if empty(&shellxquote)
+        let l:shxq_sav = ''
+        set shellxquote&
+      endif
+      let cmd = '"' . $VIMRUNTIME . '\diff"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  let cmd = substitute(cmd, '!', '\!', 'g')
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+  if exists('l:shxq_sav')
+    let &shellxquote=l:shxq_sav
+  endif
+endfunction
+
